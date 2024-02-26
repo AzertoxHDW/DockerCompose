@@ -1,0 +1,22 @@
+# Uptime Kuma
+services:
+  web:
+    container_name: kuma
+    image: louislam/uptime-kuma:latest
+    ports:
+     - "3001:3001"
+    volumes:
+     - /home/az/kuma:/app/data
+     - /var/run/docker.sock:/var/run/docker.sock:ro # (optional) For docker integrations
+    labels:
+    - traefik.enable=true
+    - traefik.http.routers.kuma.entrypoints=websecure
+    - traefik.http.routers.kuma.rule=Host(`status.azertox.com`)
+    - traefik.http.routers.kuma.tls=true
+    - traefik.http.routers.kuma.tls.certresolver=production
+    restart: always
+    networks:
+    - traefik_default
+networks:
+  traefik_default:
+    external: true

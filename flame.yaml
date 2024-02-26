@@ -1,0 +1,26 @@
+# Flame Dashboard
+version: '2.1'
+services:
+  flame:
+    image: pawelmalak/flame:multiarch
+    container_name: flame
+    volumes:
+      - /etc/flame:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 5005:5005
+    environment:
+      - PASSWORD=
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.flame.rule=Host(`dash.azertox.com`)"
+      - "traefik.http.routers.flame.entrypoints=web, websecure"
+      - "traefik.http.routers.flame.tls=true"
+      - "traefik.http.routers.flame.tls.certresolver=production"
+    networks:
+      - traefik_default
+    restart: always
+    
+networks:
+  traefik_default:
+    external: true
