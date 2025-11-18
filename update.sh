@@ -7,9 +7,12 @@ set -e  # Exit on any error
 
 SITE_DIR="azertox.com"
 REPO_URL="https://github.com/AzertoxHDW/azertox.com"
-BRANCH="dev"
 
-echo "=== Starting deployment ==="
+# Prompt for branch selection
+read -p "Enter branch to deploy (default: dev): " BRANCH
+BRANCH=${BRANCH:-dev}
+
+echo "=== Starting deployment of '$BRANCH' branch ==="
 
 # Delete the old website directory
 if [ -d "$SITE_DIR" ]; then
